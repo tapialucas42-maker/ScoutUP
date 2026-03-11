@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ScoutUp — Ton Talent Mérite d'Être Vu</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green: #16a34a;
+      --green-light: #22c55e;
+      --gray-dark: #374151;
+      --gray-mid: #9ca3af;
+      --gray-light: #f3f4f6;
+      --white: #ffffff;
+      --black: #111827;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--white);
+      color: var(--black);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 48px;
+      position: sticky;
+      top: 0;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(10px);
+      z-index: 100;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .logo {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 700;
+      font-size: 22px;
+      letter-spacing: -0.5px;
+      color: var(--gray-dark);
+    }
+    .logo span { color: var(--green); }
+
+    nav .cta-nav {
+      background: var(--green);
+      color: white;
+      border: none;
+      padding: 10px 22px;
+      border-radius: 8px;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    nav .cta-nav:hover { background: #15803d; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 90vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 60px;
+      padding: 80px 48px 60px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .hero-left { display: flex; flex-direction: column; gap: 28px; }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1.5px solid var(--green);
+      color: var(--green);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 7px 14px;
+      border-radius: 4px;
+      width: fit-content;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(68px, 8vw, 110px);
+      line-height: 0.92;
+      letter-spacing: 0.01em;
+      animation: fadeUp 0.7s ease 0.1s both;
+    }
+    .hero-title .gray { color: var(--gray-dark); }
+    .hero-title .green { color: var(--green); }
+
+    .hero-desc {
+      color: var(--gray-mid);
+      font-size: 17px;
+      line-height: 1.65;
+      max-width: 440px;
+      animation: fadeUp 0.7s ease 0.2s both;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+      animation: fadeUp 0.7s ease 0.3s both;
+    }
+
+    .btn-primary {
+      background: var(--black);
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      border-radius: 10px;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      cursor: pointer;
+      transition: transform 0.15s, background 0.2s;
+    }
+    .btn-primary:hover { background: #1f2937; transform: translateY(-1px); }
+
+    .btn-ghost {
+      background: none;
+      border: none;
+      color: var(--gray-mid);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      font-size: 15px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+    }
+    .btn-ghost:hover { color: var(--black); }
+
+    /* ── PHONE MOCKUP ── */
+    .hero-right {
+      display: flex;
+      justify-content: center;
+      animation: fadeUp 0.8s ease 0.2s both;
+    }
+
+    .phone {
+      width: 300px;
+      background: white;
+      border-radius: 36px;
+      border: 1.5px solid #e5e7eb;
+      box-shadow:
+        0 40px 80px rgba(0,0,0,0.10),
+        0 4px 16px rgba(0,0,0,0.06);
+      overflow: hidden;
+      padding: 28px 20px 24px;
+      position: relative;
+    }
+
+    .phone::before {
+      content: '';
+      display: block;
+      width: 60px;
+      height: 5px;
+      background: #e5e7eb;
+      border-radius: 99px;
+      margin: 0 auto 24px;
+    }
+
+    .phone-logo {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 700;
+      font-size: 16px;
+      color: var(--gray-dark);
+      margin-bottom: 16px;
+    }
+    .phone-logo span { color: var(--green); }
+
+    .search-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 10px 14px;
+      margin-bottom: 14px;
+    }
+    .search-bar span { color: var(--gray-mid); font-size: 13px; }
+
+    .player-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin-bottom: 10px;
+      transition: box-shadow 0.2s;
+    }
+    .player-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+
+    .player-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--gray-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    .player-info { flex: 1; }
+    .player-name {
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--gray-dark);
+    }
+    .player-pos {
+      font-size: 11px;
+      color: var(--gray-mid);
+      margin-top: 2px;
+    }
+
+    .player-tag {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      color: var(--green);
+    }
+    .player-tag.top { color: #f59e0b; }
+    .player-tag.vu { color: #6366f1; }
+
+    /* ── FEATURES ── */
+    .features {
+      background: var(--gray-light);
+      padding: 90px 48px;
+    }
+
+    .features-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      text-align: center;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(42px, 5vw, 64px);
+      text-align: center;
+      color: var(--gray-dark);
+      margin-bottom: 60px;
+      line-height: 1;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 32px 28px;
+      border: 1px solid #e5e7eb;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.08); }
+
+    .card-icon {
+      font-size: 32px;
+      margin-bottom: 18px;
+    }
+
+    .card h3 {
+      font-weight: 700;
+      font-size: 17px;
+      color: var(--black);
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      color: var(--gray-mid);
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+    /* ── HOW IT WORKS ── */
+    .how {
+      padding: 90px 48px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin-top: 48px;
+    }
+
+    .step {
+      display: flex;
+      gap: 28px;
+      align-items: flex-start;
+      padding-bottom: 40px;
+      position: relative;
+    }
+
+    .step:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      left: 20px;
+      top: 44px;
+      bottom: 0;
+      width: 2px;
+      background: #e5e7eb;
+    }
+
+    .step-num {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--green);
+      color: white;
+      font-weight: 700;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      z-index: 1;
+    }
+
+    .step-content h3 {
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--black);
+      margin-bottom: 8px;
+      padding-top: 8px;
+    }
+
+    .step-content p {
+      color: var(--gray-mid);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* ── CTA SECTION ── */
+    .cta-section {
+      background: var(--black);
+      color: white;
+      padding: 90px 48px;
+      text-align: center;
+    }
+
+    .cta-section h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(48px, 6vw, 80px);
+      margin-bottom: 20px;
+      line-height: 1;
+    }
+    .cta-section h2 span { color: var(--green-light); }
+
+    .cta-section p {
+      color: #9ca3af;
+      font-size: 17px;
+      margin-bottom: 36px;
+      max-width: 460px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.6;
+    }
+
+    .btn-green {
+      background: var(--green);
+      color: white;
+      border: none;
+      padding: 16px 36px;
+      border-radius: 10px;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 700;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-green:hover { background: #15803d; transform: translateY(-2px); }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 40px 48px;
+      border-top: 1px solid #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .footer-logo {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--gray-dark);
+    }
+    .footer-logo span { color: var(--green); }
+
+    .footer-copy {
+      font-size: 13px;
+      color: var(--gray-mid);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+    }
+    .footer-links a {
+      font-size: 13px;
+      color: var(--gray-mid);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--black); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 20px 24px; }
+
+      .hero {
+        grid-template-columns: 1fr;
+        padding: 60px 24px;
+        text-align: center;
+        min-height: auto;
+      }
+      .badge { margin: 0 auto; }
+      .hero-desc { max-width: 100%; }
+      .hero-actions { justify-content: center; }
+      .hero-right { order: -1; }
+      .phone { width: 260px; }
+
+      .features { padding: 60px 24px; }
+      .cards-grid { grid-template-columns: 1fr; }
+
+      .how { padding: 60px 24px; }
+      .cta-section { padding: 60px 24px; }
+
+      footer {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 32px 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="logo">Scout<span>Up</span></div>
+    <button class="cta-nav">Rejoindre la liste d'attente</button>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-left">
+      <div class="badge">🌍 Bientôt disponible en Europe</div>
+      <h1 class="hero-title">
+        <span class="gray">TON TALENT<br>MÉRITE<br></span>
+        <span class="green">D'ÊTRE VU.</span>
+      </h1>
+      <p class="hero-desc">
+        ScoutUp connecte les jeunes footballeurs européens avec les agents FIFA agréés.
+        Crée ton profil, dépose ton CV foot et fais-toi repérer.
+      </p>
+      <div class="hero-actions">
+        <button class="btn-primary">Rejoindre la liste d'attente</button>
+        <button class="btn-ghost">Voir comment ça marche →</button>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="phone">
+        <div class="phone-logo">Scout<span>Up</span></div>
+        <div class="search-bar">
+          <svg width="14" height="14" fill="none" stroke="#9ca3af" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <span>Rechercher un talent…</span>
+        </div>
+        <div class="player-card">
+          <div class="player-avatar">⚽</div>
+          <div class="player-info">
+            <div class="player-name">Karim D. — 19 ans</div>
+            <div class="player-pos">Milieu offensif · Lyon, FR</div>
+          </div>
+          <div class="player-tag">NOUVEAU</div>
+        </div>
+        <div class="player-card">
+          <div class="player-avatar">🏃</div>
+          <div class="player-info">
+            <div class="player-name">Marco F. — 17 ans</div>
+            <div class="player-pos">Ailier droit · Madrid, ES</div>
+          </div>
+          <div class="player-tag top">TOP</div>
+        </div>
+        <div class="player-card">
+          <div class="player-avatar">🥅</div>
+          <div class="player-info">
+            <div class="player-name">Luca B. — 21 ans</div>
+            <div class="player-pos">Gardien · Milan, IT</div>
+          </div>
+          <div class="player-tag vu">VU</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features" id="features">
+    <div class="features-inner">
+      <div class="section-label">Pourquoi ScoutUp</div>
+      <h2 class="section-title">Tout ce dont tu as besoin pour percer</h2>
+      <div class="cards-grid">
+        <div class="card">
+          <div class="card-icon">📋</div>
+          <h3>Profil complet</h3>
+          <p>Crée ton profil joueur avec tes stats, vidéos, et parcours. Un CV foot qui parle à tous les scouts.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🔍</div>
+          <h3>Visibilité directe</h3>
+          <p>Sois visible auprès des agents FIFA agréés en Europe. Aucun intermédiaire, aucun filtre inutile.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🏆</div>
+          <h3>Agents certifiés</h3>
+          <p>Tous les agents présents sur ScoutUp sont vérifiés et agréés FIFA. Tu es en sécurité.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="how" id="how">
+    <div class="section-label" style="text-align:center">Comment ça marche</div>
+    <h2 class="section-title" style="text-align:center; font-family:'Bebas Neue',sans-serif; font-size:clamp(42px,5vw,64px); color:var(--gray-dark); margin-bottom:0; line-height:1;">En 3 étapes simples</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h3>Crée ton profil</h3>
+          <p>Renseigne ton poste, ta ville, tes stats et ajoute tes meilleures vidéos. Ça prend moins de 10 minutes.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h3>Dépose ton CV foot</h3>
+          <p>Notre format standardisé est lisible par tous les agents. Tu déposes, ils téléchargent directement.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h3>Fais-toi repérer</h3>
+          <p>Les agents te contactent directement sur la plateforme. Tu gères tout depuis ton espace personnel.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINALE -->
+  <section class="cta-section">
+    <h2>REJOINS LA<br><span>LISTE D'ATTENTE</span></h2>
+    <p>Sois parmi les premiers à accéder à ScoutUp dès le lancement en Europe.</p>
+    <button class="btn-green">Je veux être repéré →</button>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">Scout<span>Up</span></div>
+    <div class="footer-copy">© 2026 ScoutUp — Le football mérite mieux.</div>
+    <div class="footer-links">
+      <a href="#">À propos</a>
+      <a href="#">Confidentialité</a>
+      <a href="#">Contact</a>
+      <a href="mailto:contact@scoutup.io">contact@scoutup.io</a>
+    </div>
+  </footer>
+
+</body>
+</html>
