@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ScoutUp — Le LinkedIn du football</title>
+<meta name="description" content="ScoutUp connecte les joueurs de football non professionnels d'Europe aux agents licenciés FIFA et aux clubs recruteurs. Publie tes vidéos, sois vu, sois contacté.">
+<meta property="og:title" content="ScoutUp — Le LinkedIn du football">
+<meta property="og:description" content="Ton profil. Tes vidéos. Vus par des agents licenciés FIFA et des clubs partout en Europe.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --noir:#07090A;
+    --noir-2:#0D1211;
+    --carte:#111816;
+    --vert:#00E17A;
+    --vert-fonce:#068F4E;
+    --craie:#EFF3F0;
+    --gris:#7C8983;
+    --bord:rgba(255,255,255,.08);
+    --max:1120px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--noir);color:var(--craie);
+    font-family:'Inter',system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 22px}
+
+  /* ——— Typographie ——— */
+  h1,h2,h3{font-family:'Archivo Black',sans-serif;text-transform:uppercase;letter-spacing:-.02em;line-height:1}
+  .eyebrow{
+    font-family:'Barlow Condensed',sans-serif;
+    text-transform:uppercase;letter-spacing:.22em;
+    font-size:13px;color:var(--vert);
+    display:flex;align-items:center;gap:10px;
+  }
+  .eyebrow::before{content:'';width:26px;height:1px;background:var(--vert)}
+  p{color:var(--gris);line-height:1.6}
+
+  /* ——— Nav ——— */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(7,9,10,.82);backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--bord);
+  }
+  nav{display:flex;align-items:center;gap:20px;height:64px}
+  .logo{font-family:'Archivo Black',sans-serif;font-size:20px;text-transform:uppercase;letter-spacing:-.02em}
+  .logo{display:flex;align-items:center}
+  .logo span{color:var(--vert)}
+  .logo .dot{
+    width:26px;height:26px;border-radius:8px;margin-right:10px;
+    background:var(--vert);color:#04120A;
+    display:grid;place-items:center;font-size:14px;
+    box-shadow:0 0 20px rgba(0,225,122,.3);
+  }
+  nav .links{margin-left:auto;display:none;gap:26px}
+  nav .links a{
+    color:var(--gris);text-decoration:none;font-size:14px;font-weight:500;
+    transition:color .2s;
+  }
+  nav .links a:hover{color:var(--craie)}
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:9px;
+    background:var(--vert);color:#04120A;text-decoration:none;
+    font-weight:700;font-size:15px;
+    padding:13px 22px;border-radius:999px;border:none;cursor:pointer;
+    transition:transform .18s ease, box-shadow .18s ease;
+  }
+  .btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(0,225,122,.28)}
+  .btn.small{padding:10px 18px;font-size:14px}
+  .btn.ghost{background:transparent;color:var(--craie);border:1px solid var(--bord)}
+  .btn.ghost:hover{border-color:var(--vert);box-shadow:none}
+  nav .btn{margin-left:auto}
+  @media(min-width:860px){
+    nav .links{display:flex}
+    nav .btn{margin-left:0}
+  }
+
+  /* ——— Hero ——— */
+  .hero{position:relative;padding:70px 0 80px;overflow:hidden}
+  .hero::before{
+    content:'';position:absolute;inset:0;z-index:0;
+    background:
+      radial-gradient(90% 55% at 50% -10%, rgba(0,225,122,.13), transparent 65%),
+      repeating-linear-gradient(180deg, rgba(255,255,255,.02) 0 1px, transparent 1px 78px);
+  }
+  .hero .wrap{position:relative;z-index:1}
+  .hero h1{
+    font-size:clamp(38px,8.5vw,78px);
+    margin:20px 0 0;
+  }
+  .hero h1 em{font-style:normal;color:var(--vert)}
+  .hero .lede{
+    margin-top:22px;max-width:46ch;
+    font-size:clamp(16px,2.1vw,19px);
+  }
+  .hero .actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
+  .hero .note{margin-top:18px;font-size:13.5px;color:var(--gris)}
+
+  /* Carte joueur — élément signature */
+  .card{
+    margin-top:52px;
+    background:linear-gradient(180deg,var(--carte),#0A0F0E);
+    border:1px solid var(--bord);border-radius:20px;
+    overflow:hidden;max-width:420px;
+    box-shadow:0 30px 70px rgba(0,0,0,.55);
+  }
+  .card .top{
+    display:flex;align-items:center;gap:13px;
+    padding:16px 18px;border-bottom:1px solid var(--bord);
+  }
+  .card .av{
+    width:42px;height:42px;border-radius:50%;
+    background:linear-gradient(140deg,var(--vert),var(--vert-fonce));
+    display:grid;place-items:center;color:#04120A;font-weight:800;font-size:15px;
+    flex:none;
+  }
+  .card .who{line-height:1.3}
+  .card .who b{font-size:15px}
+  .card .who small{display:block;color:var(--gris);font-size:12.5px}
+  .card .badge{
+    margin-left:auto;font-family:'Barlow Condensed',sans-serif;
+    text-transform:uppercase;letter-spacing:.14em;font-size:11px;
+    color:var(--vert);border:1px solid rgba(0,225,122,.35);
+    padding:5px 10px;border-radius:999px;
+  }
+  .card .media{
+    aspect-ratio:5/4;position:relative;
+    background:
+      radial-gradient(70% 70% at 50% 42%, rgba(0,225,122,.14), transparent 70%),
+      repeating-linear-gradient(90deg,#0A0F0E 0 42px, #0C1210 42px 84px);
+    display:grid;place-items:center;
+  }
+  .card .media .play{
+    width:58px;height:58px;border-radius:50%;
+    border:2px solid var(--vert);color:var(--vert);
+    display:grid;place-items:center;font-size:19px;
+    box-shadow:0 0 34px rgba(0,225,122,.3);
+  }
+  .card .media .tag{
+    position:absolute;left:14px;bottom:14px;
+    font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;
+    letter-spacing:.14em;font-size:11px;color:var(--craie);
+    background:rgba(0,0,0,.55);padding:6px 11px;border-radius:6px;
+    border:1px solid var(--bord);
+  }
+  .card .stats{display:grid;grid-template-columns:repeat(3,1fr)}
+  .card .stats div{padding:15px 12px;text-align:center;border-right:1px solid var(--bord)}
+  .card .stats div:last-child{border-right:none}
+  .card .stats b{
+    display:block;font-family:'Archivo Black',sans-serif;
+    font-size:19px;color:var(--craie);
+  }
+  .card .stats small{
+    font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;
+    letter-spacing:.14em;font-size:10.5px;color:var(--gris);
+  }
+  @media(min-width:900px){
+    .hero .wrap{display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center}
+    .card{margin-top:0}
+  }
+
+  /* ——— Sections ——— */
+  section{padding:76px 0}
+  .sec-head{max-width:56ch}
+  .sec-head h2{font-size:clamp(28px,5.2vw,44px);margin:16px 0 0}
+  .sec-head p{margin-top:16px}
+
+  /* Problème */
+  .problem{background:var(--noir-2);border-top:1px solid var(--bord);border-bottom:1px solid var(--bord)}
+  .facts{display:grid;gap:16px;margin-top:40px}
+  .fact{
+    background:var(--carte);border:1px solid var(--bord);
+    border-radius:16px;padding:26px 22px;
+  }
+  .fact .n{
+    font-family:'Archivo Black',sans-serif;font-size:15px;color:var(--vert);
+    letter-spacing:.04em;
+  }
+  .fact h3{font-size:19px;margin:12px 0 10px;text-transform:none;font-family:'Inter',sans-serif;font-weight:700;letter-spacing:0;line-height:1.35}
+  .fact p{font-size:14.5px}
+  @media(min-width:800px){.facts{grid-template-columns:repeat(3,1fr)}}
+
+  /* Comment ça marche */
+  .steps{display:grid;gap:2px;margin-top:44px;border:1px solid var(--bord);border-radius:18px;overflow:hidden;background:var(--bord)}
+  .step{background:var(--noir);padding:30px 24px}
+  .step .k{
+    font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;
+    letter-spacing:.2em;font-size:12px;color:var(--vert);
+  }
+  .step h3{font-size:20px;margin:12px 0 10px;font-family:'Inter',sans-serif;font-weight:700;text-transform:none;letter-spacing:0}
+  .step p{font-size:14.5px}
+  @media(min-width:800px){.steps{grid-template-columns:repeat(3,1fr)}}
+
+  /* Pour qui */
+  .audiences{display:grid;gap:18px;margin-top:44px}
+  .aud{
+    border:1px solid var(--bord);border-radius:18px;padding:30px 24px;
+    background:linear-gradient(180deg,var(--carte),transparent);
+  }
+  .aud.feature{border-color:rgba(0,225,122,.4);box-shadow:0 0 0 1px rgba(0,225,122,.07) inset}
+  .aud h3{font-size:22px;margin-bottom:8px}
+  .aud .price{
+    font-family:'Archivo Black',sans-serif;font-size:30px;color:var(--vert);
+    margin:18px 0 4px;
+  }
+  .aud .price small{font-size:14px;color:var(--gris);font-family:'Inter',sans-serif;font-weight:500}
+  .aud .free{color:var(--vert)}
+  ul.checks{list-style:none;margin-top:20px;display:grid;gap:11px}
+  ul.checks li{
+    display:flex;gap:11px;font-size:14.5px;color:var(--gris);line-height:1.5;
+  }
+  ul.checks li::before{
+    content:'';flex:none;width:16px;height:16px;margin-top:3px;border-radius:50%;
+    background:rgba(0,225,122,.14);
+    border:1px solid rgba(0,225,122,.45);
+  }
+  @media(min-width:880px){.audiences{grid-template-columns:repeat(3,1fr)}}
+
+  /* CTA final */
+  .final{
+    border-top:1px solid var(--bord);
+    background:radial-gradient(80% 100% at 50% 100%, rgba(0,225,122,.12), transparent 70%);
+    text-align:center;
+  }
+  .final h2{font-size:clamp(30px,6.5vw,56px)}
+  .final h2 em{font-style:normal;color:var(--vert)}
+  .final p{margin:20px auto 0;max-width:44ch}
+  .final .btn{margin-top:32px}
+  .final .fine{margin-top:18px;font-size:13px}
+
+  footer{border-top:1px solid var(--bord);padding:34px 0;}
+  footer .wrap{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+  footer p{font-size:13px}
+  footer .right{margin-left:auto;display:flex;gap:18px}
+  footer a{color:var(--gris);text-decoration:none;font-size:13px}
+  footer a:hover{color:var(--vert)}
+
+  /* Reveal au scroll */
+  .rv{opacity:0;transform:translateY(24px);transition:opacity .6s ease, transform .7s cubic-bezier(.2,.8,.2,1)}
+  .rv.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion: reduce){
+    .rv{opacity:1;transform:none;transition:none}
+    html{scroll-behavior:auto}
+  }
+  a:focus-visible,.btn:focus-visible{outline:2px solid var(--vert);outline-offset:3px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <nav>
+      <div class="logo"><span class="dot">S</span>Scout<span>Up</span></div>
+      <div class="links">
+        <a href="#probleme">Le problème</a>
+        <a href="#fonctionnement">Comment ça marche</a>
+        <a href="app.html">Démo</a>
+      </div>
+      <a class="btn small" href="#inscription">Rejoindre</a>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow">Football amateur · Europe</div>
+      <h1>T'as le niveau.<br><em>Fais-le voir.</em></h1>
+      <p class="lede">ScoutUp met les joueurs non professionnels d'Europe en relation directe avec des agents licenciés FIFA et des clubs recruteurs. Ton profil, tes vidéos, tes stats — au même endroit, visibles par ceux qui recrutent.</p>
+      <div class="actions">
+        <a class="btn" href="#inscription">Rejoindre la liste d'attente <span>→</span></a>
+        <a class="btn ghost" href="app.html">Voir la démo →</a>
+      </div>
+      <p class="note">Gratuit pour les joueurs. Lancement prochainement.</p>
+    </div>
+
+    <!-- Carte profil : élément signature -->
+    <div class="card rv">
+      <div class="top">
+        <div class="av">LT</div>
+        <div class="who">
+          <b>Profil joueur</b>
+          <small>Milieu offensif · 21 ans · Régional 1</small>
+        </div>
+        <div class="badge">Ouvert</div>
+      </div>
+      <div class="media">
+        <div class="play">▶</div>
+        <div class="tag">Compil saison — 1:24</div>
+      </div>
+      <div class="stats">
+        <div><b>18</b><small>Matchs</small></div>
+        <div><b>7</b><small>Buts</small></div>
+        <div><b>5</b><small>Passes D.</small></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROBLÈME -->
+<section class="problem" id="probleme">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="eyebrow">Le constat</div>
+      <h2>Le talent ne manque pas.<br>La visibilité, si.</h2>
+      <p>Partout en Europe, des joueurs ont le niveau pour passer un cap. Ils n'ont simplement aucun moyen d'être vus par les gens dont c'est le métier.</p>
+    </div>
+    <div class="facts">
+      <div class="fact rv">
+        <div class="n">01</div>
+        <h3>Aucune vitrine</h3>
+        <p>Une compil postée sur un compte perso disparaît dans le fil. Personne dont c'est le métier ne la voit.</p>
+      </div>
+      <div class="fact rv">
+        <div class="n">02</div>
+        <h3>Aucun point d'entrée</h3>
+        <p>Sans réseau ni intermédiaire, contacter un agent licencié FIFA relève de la chance ou du hasard.</p>
+      </div>
+      <div class="fact rv">
+        <div class="n">03</div>
+        <h3>Les outils existants visent ailleurs</h3>
+        <p>Les plateformes de scouting sont pensées pour le professionnel. Le joueur non représenté n'y figure pas.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FONCTIONNEMENT -->
+<section id="fonctionnement">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="eyebrow">Comment ça marche</div>
+      <h2>Trois étapes.<br>Rien de plus.</h2>
+    </div>
+    <div class="steps">
+      <div class="step rv">
+        <div class="k">Étape 1</div>
+        <h3>Crée ton profil</h3>
+        <p>Poste, âge, club actuel, niveau, stats de la saison. Le profil que tu aurais aimé pouvoir envoyer.</p>
+      </div>
+      <div class="step rv">
+        <div class="k">Étape 2</div>
+        <h3>Publie tes vidéos</h3>
+        <p>Actions, compils, matchs entiers. Tu publies comme sur un réseau social — sauf que ton audience, ce sont des agents et des clubs.</p>
+      </div>
+      <div class="step rv">
+        <div class="k">Étape 3</div>
+        <h3>Sois contacté</h3>
+        <p>Les agents licenciés et les clubs recruteurs cherchent par poste, âge, niveau et pays. S'ils accrochent, ils te contactent.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- POUR QUI -->
+<section id="pour-qui" class="problem">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="eyebrow">Pour qui</div>
+      <h2>Trois côtés du terrain</h2>
+      <p>Les joueurs ne paient rien. Les professionnels qui recrutent financent la plateforme.</p>
+    </div>
+    <div class="audiences">
+      <div class="aud feature rv">
+        <h3>Joueurs</h3>
+        <p>Non professionnels, partout en Europe.</p>
+        <div class="price free">Gratuit</div>
+        <ul class="checks">
+          <li>Profil complet avec stats et poste</li>
+          <li>Publication de vidéos et de compils</li>
+          <li>Visible par les agents et les clubs</li>
+          <li>Candidature aux annonces de recrutement</li>
+        </ul>
+      </div>
+      <div class="aud rv">
+        <h3>Agents</h3>
+        <p>Licenciés FIFA.</p>
+        <div class="price">19 € <small>/ mois — ou 190 €/an</small></div>
+        <ul class="checks">
+          <li>Recherche par poste, âge, niveau, pays</li>
+          <li>Mises en relation illimitées</li>
+          <li>Accès aux vidéos et aux stats</li>
+          <li>Suivi des joueurs repérés</li>
+        </ul>
+      </div>
+      <div class="aud rv">
+        <h3>Clubs</h3>
+        <p>Espace recruteur dédié.</p>
+        <div class="price">45 € <small>/ mois — ou 450 €/an</small></div>
+        <ul class="checks">
+          <li>Publication d'annonces de recrutement</li>
+          <li>Réception des candidatures joueurs</li>
+          <li>Recherche dans la base de profils</li>
+          <li>Annonces illimitées</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="final" id="inscription">
+  <div class="wrap">
+    <div class="rv">
+      <h2>Ton profil.<br>Tes vidéos.<br><em>Vus par des agents.</em></h2>
+      <p>ScoutUp ouvre bientôt. Rejoins la liste d'attente pour être parmi les premiers joueurs sur la plateforme.</p>
+      
+      <a class="btn" href="https://tally.so/r/D41b0N" target="_blank" rel="noopener">Rejoindre la liste d'attente <span>→</span></a>
+      <p class="fine">Gratuit, sans engagement. On te prévient à l'ouverture.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="logo"><span class="dot">S</span>Scout<span>Up</span></div>
+    <p>&nbsp;· Le LinkedIn du football</p>
+    <div class="right">
+      <a href="#probleme">Le problème</a>
+      <a href="#pour-qui">Pour qui</a>
+      <a href="#inscription">Rejoindre</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  },{threshold:.15});
+  document.querySelectorAll('.rv').forEach((el,i)=>{
+    el.style.transitionDelay = (i % 3) * 80 + 'ms';
+    io.observe(el);
+  });
+</script>
+</body>
+</html>
