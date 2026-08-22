@@ -167,6 +167,13 @@
     .card{margin-top:0}
   }
 
+  .card-link{display:block;text-decoration:none;color:inherit;transition:transform .2s ease, border-color .2s ease}
+  .card-link:hover{transform:translateY(-3px);border-color:rgba(0,225,122,.45)}
+  .card-cta{
+    padding:14px 18px;border-top:1px solid var(--bord);text-align:center;
+    color:var(--vert);font-weight:700;font-size:14px;
+  }
+
   /* ——— Sections ——— */
   section{padding:76px 0}
   .sec-head{max-width:56ch}
@@ -262,9 +269,9 @@
       <div class="links">
         <a href="#probleme">Le problème</a>
         <a href="#fonctionnement">Comment ça marche</a>
-        <a href="app.html">Démo</a>
+        <a href="#demo">La démo</a>
       </div>
-      <a class="btn small" href="#inscription">Rejoindre</a>
+      <a class="btn small" href="app.html">Essayer la démo</a>
     </nav>
   </div>
 </header>
@@ -277,14 +284,14 @@
       <h1>T'as le niveau.<br><em>Fais-le voir.</em></h1>
       <p class="lede">ScoutUp met les joueurs non professionnels d'Europe en relation directe avec des agents licenciés FIFA et des clubs recruteurs. Ton profil, tes vidéos, tes stats — au même endroit, visibles par ceux qui recrutent.</p>
       <div class="actions">
-        <a class="btn" href="#inscription">Rejoindre la liste d'attente <span>→</span></a>
-        <a class="btn ghost" href="app.html">Voir la démo →</a>
+        <a class="btn" href="app.html">Essayer la démo <span>→</span></a>
+        <a class="btn ghost" href="#inscription">Rejoindre la liste d'attente</a>
       </div>
       <p class="note">Gratuit pour les joueurs. Lancement prochainement.</p>
     </div>
 
-    <!-- Carte profil : élément signature -->
-    <div class="card rv">
+    <!-- Carte profil : élément signature, cliquable vers la démo -->
+    <a class="card rv card-link" href="app.html" aria-label="Essayer la démo de ScoutUp">
       <div class="top">
         <div class="av">LT</div>
         <div class="who">
@@ -302,7 +309,8 @@
         <div><b>7</b><small>Buts</small></div>
         <div><b>5</b><small>Passes D.</small></div>
       </div>
-    </div>
+      <div class="card-cta">Essayer la démo →</div>
+    </a>
   </div>
 </div>
 
@@ -403,6 +411,19 @@
           <li>Annonces illimitées</li>
         </ul>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- DÉMO -->
+<section id="demo">
+  <div class="wrap" style="text-align:center">
+    <div class="rv">
+      <div class="eyebrow" style="justify-content:center">Démo</div>
+      <h2 style="font-size:clamp(28px,5.2vw,44px);margin:16px 0 0">Le produit tourne déjà.<br>Regardez-le.</h2>
+      <p style="margin:18px auto 0;max-width:48ch">Une démonstration cliquable des trois espaces : le joueur qui publie ses vidéos, l'agent qui cherche dans le vivier, le club qui poste ses annonces. Aucune inscription requise.</p>
+      <div style="margin-top:30px"><a class="btn" href="app.html">Essayer la démo <span>→</span></a></div>
+      <p class="fine" style="margin-top:16px;font-size:13px;color:var(--gris)">Données fictives — rien n'est enregistré.</p>
     </div>
   </div>
 </section>
