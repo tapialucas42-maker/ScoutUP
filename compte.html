@@ -338,6 +338,10 @@ async function loadMe(){
     S.profile = created;
   }
 
+  // Un administrateur peut être joueur, agent ou club : on charge les
+  // demandes en attente dans tous les cas.
+  if (S.profile.is_admin) await loadPending();
+
   if (S.profile.role === 'player'){
     const { data: pl } = await db.from('players').select('*').eq('id', uid).maybeSingle();
     S.player = pl;
@@ -349,7 +353,6 @@ async function loadMe(){
     S.view = 'app';
     S.tab = ag ? (ag.verified ? 'recherche' : 'attente') : 'licence';
     if (ag && ag.verified) await chercher();
-    if (S.profile.is_admin) await loadPending();
   } else {
     // Clubs : espace dédié à venir
     S.view = 'app';
@@ -766,6 +769,7 @@ function vApp(){
       </div></div>
       <a class="btn mt" href="app.html">Voir la démo →</a></div>`;
   }
+  if (S.tab === 'admin' && S.profile.is_admin) return vAdmin();
   if (S.tab === 'videos')   return vVideos();
   if (S.tab === 'publier')  return vPublier();
   if (S.tab === 'messages') return vMessages();
@@ -1213,6 +1217,7 @@ document.addEventListener('click', e => {
   if (a === 'edit')   { S.form = {...S.player}; S.view = 'profil'; clearMsg(); return render(); }
   if (a === 'tab')    {
     S.tab = v; clearMsg(); S.openPlayer = null; S.openPosts = [];
+    if (v === 'admin'){ render(); return loadPending().then(render); }
     // Le formulaire de publication démarre vide, pas rempli avec le profil
     if (v === 'publier') S.form = {kind:'Compilation'};
     window.scrollTo({top:0});
