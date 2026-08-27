@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ScoutUP — Mon compte</title>
+<meta name="theme-color" content="#07090A">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --black:#07090A; --card:#111816; --card-2:#0C1211;
+    --ink:#EFF3F0; --ink-2:#B4BFB9; --muted:#7C8983;
+    --line:rgba(255,255,255,.09); --line-strong:rgba(255,255,255,.16);
+    --green:#00E17A; --green-soft:rgba(0,225,122,.13);
+    --warn:#FFC46B; --warn-soft:rgba(255,196,107,.11);
+    --red:#FF7B72; --red-soft:rgba(255,123,114,.12);
+    --display:'Archivo Black',sans-serif;
+    --util:'Barlow Condensed',sans-serif;
+    --body:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:var(--body); background:var(--black); color:var(--ink);
+    -webkit-font-smoothing:antialiased; font-size:15px; line-height:1.55;
+    background-image:
+      radial-gradient(120% 55% at 50% -8%, rgba(0,225,122,.09), transparent 62%),
+      repeating-linear-gradient(180deg, rgba(255,255,255,.018) 0 1px, transparent 1px 84px);
+    background-attachment:fixed; min-height:100vh;
+  }
+  button{font-family:inherit;font-size:inherit;cursor:pointer;border:none;background:none;color:inherit}
+  input,select,textarea{font-family:inherit;font-size:inherit;color:inherit}
+  ::placeholder{color:#5F6A65}
+  a{color:var(--green)}
+
+  .shell{max-width:760px;margin:0 auto;padding:0 20px 80px}
+
+  .topnav{
+    display:flex;align-items:center;gap:14px;padding:18px 0;
+    border-bottom:1px solid var(--line);margin-bottom:28px;flex-wrap:wrap;
+  }
+  .logo{
+    display:flex;align-items:center;font-family:var(--display);font-size:19px;
+    letter-spacing:-.03em;text-transform:uppercase;text-decoration:none;color:var(--ink);
+  }
+  .logo .dot{
+    width:28px;height:28px;border-radius:9px;margin-right:10px;
+    background:var(--green);color:#04120A;display:grid;place-items:center;
+    font-size:15px;box-shadow:0 0 22px rgba(0,225,122,.3);
+  }
+  .logo .up{color:var(--green)}
+  .topnav .right{margin-left:auto;display:flex;align-items:center;gap:10px}
+
+  h1{font-family:var(--display);font-weight:400;font-size:30px;line-height:1.05;
+     letter-spacing:-.03em;margin:0 0 10px;text-transform:uppercase}
+  h2{font-family:var(--display);font-weight:400;font-size:19px;letter-spacing:-.02em;
+     margin:0 0 6px;text-transform:uppercase}
+  h3{font-size:15.5px;margin:0 0 12px;font-weight:700}
+  .sub{color:var(--muted);margin:0 0 24px}
+  .small{font-size:13px;color:var(--muted)}
+
+  .card{
+    background:linear-gradient(180deg,var(--card),var(--card-2));
+    border:1px solid var(--line);border-radius:16px;padding:24px;
+    box-shadow:0 1px 2px rgba(0,0,0,.4), 0 12px 34px rgba(0,0,0,.32);
+  }
+  .mt{margin-top:16px}
+
+  .label{display:block;font-family:var(--util);text-transform:uppercase;
+         letter-spacing:.16em;font-size:12px;font-weight:600;margin:0 0 7px;color:var(--muted)}
+  .field{
+    width:100%;padding:12px 13px;border:1px solid var(--line-strong);border-radius:11px;
+    background:rgba(255,255,255,.04);outline:none;transition:.15s;font-size:16px;
+  }
+  .field:focus{border-color:var(--green);box-shadow:0 0 0 3px var(--green-soft)}
+  .field option{background:#111816;color:var(--ink)}
+  .row{display:grid;gap:14px}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+  @media(max-width:620px){.row2,.row3{grid-template-columns:1fr}}
+  .f{margin-bottom:14px}
+
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    padding:13px 22px;border-radius:999px;font-weight:700;font-size:15px;
+    background:rgba(255,255,255,.09);color:var(--ink);
+    border:1px solid var(--line-strong);transition:.16s;min-height:46px;
+  }
+  .btn:hover:not(:disabled){background:rgba(255,255,255,.14);transform:translateY(-1px)}
+  .btn.accent{background:var(--green);color:#04120A;border-color:transparent;
+              box-shadow:0 6px 22px rgba(0,225,122,.22)}
+  .btn.accent:hover:not(:disabled){background:#1BE98A}
+  .btn.sm{padding:9px 15px;font-size:13.5px;min-height:38px}
+  .btn.wide{width:100%}
+  .btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+
+  .tabs{display:flex;gap:6px;margin-bottom:22px;background:rgba(255,255,255,.04);
+        padding:5px;border-radius:999px;border:1px solid var(--line)}
+  .tabs button{flex:1;padding:10px;border-radius:999px;font-weight:600;font-size:14px;color:var(--muted)}
+  .tabs button.on{background:var(--green);color:#04120A;font-weight:700}
+
+  .roles{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:6px}
+  @media(max-width:620px){.roles{grid-template-columns:1fr}}
+  .roles button{
+    padding:14px 10px;border-radius:12px;border:1px solid var(--line-strong);
+    background:transparent;color:var(--ink-2);font-weight:600;font-size:14px;transition:.15s;
+  }
+  .roles button.on{border-color:var(--green);background:var(--green-soft);color:var(--green)}
+
+  .banner{
+    display:flex;gap:11px;align-items:flex-start;padding:14px 16px;border-radius:12px;
+    font-size:13.5px;line-height:1.5;margin-bottom:18px;
+    background:var(--green-soft);color:var(--green);border:1px solid rgba(0,225,122,.22);
+  }
+  .banner.warn{background:var(--warn-soft);color:var(--warn);border-color:rgba(255,196,107,.24)}
+  .banner.err{background:var(--red-soft);color:var(--red);border-color:rgba(255,123,114,.28)}
+  .banner.info{background:rgba(255,255,255,.05);color:var(--ink-2);border-color:var(--line)}
+
+  .statgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .stat{background:rgba(255,255,255,.04);border:1px solid var(--line);
+        border-radius:13px;padding:16px 12px;text-align:center}
+  .stat b{display:block;font-family:var(--display);font-weight:400;font-size:23px;
+          letter-spacing:-.04em;color:var(--ink)}
+  .stat span{font-family:var(--util);text-transform:uppercase;letter-spacing:.14em;
+             font-size:11px;color:var(--muted)}
+
+  .pill{display:inline-flex;align-items:center;gap:5px;padding:4px 11px;border-radius:999px;
+        font-family:var(--util);text-transform:uppercase;letter-spacing:.12em;
+        font-size:11.5px;font-weight:600;background:rgba(255,255,255,.07);color:var(--ink-2)}
+  .pill.green{background:var(--green-soft);color:var(--green);border:1px solid rgba(0,225,122,.3)}
+  .pill.warn{background:var(--warn-soft);color:var(--warn);border:1px solid rgba(255,196,107,.28)}
+
+  .sep{height:1px;background:var(--line);margin:20px 0}
+  .center{text-align:center}
+  .spin{
+    width:18px;height:18px;border:2px solid rgba(255,255,255,.2);
+    border-top-color:var(--green);border-radius:50%;
+    animation:sp .7s linear infinite;display:inline-block;vertical-align:-3px;
+  }
+  @keyframes sp{to{transform:rotate(360deg)}}
+  .loading{padding:70px 20px;text-align:center;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="topnav">
+    <a class="logo" href="index.html"><span class="dot">S</span>Scout<span class="up">UP</span></a>
+    <div class="right" id="navright"></div>
+  </div>
+  <div id="app"><div class="loading"><span class="spin"></span><br><br>Chargement…</div></div>
+</div>
+
+<script type="module">
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
+/* ====================================================================
+   CONNEXION À LA BASE
+   La clé "publishable" est faite pour être visible dans le navigateur.
+   Ce qui protège les données, ce sont les règles RLS posées côté base,
+   pas le secret de cette clé.
+   ==================================================================== */
+const SUPABASE_URL = 'https://zzpmxzvqjzjpdlobqqii.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_2XI4Ez9EjpeVtpsBTctmhg_6V1mcQMs';
+
+const db = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+/* ====================================================================
+   ÉTAT
+   ==================================================================== */
+const POSTES = ["Gardien","Latéral droit","Latéral gauche","Défenseur central",
+  "Milieu défensif","Milieu central","Milieu offensif","Ailier droit",
+  "Ailier gauche","Attaquant"];
+const NIVEAUX = ["National 2","National 3","Régional 1","Régional 2","Régional 3",
+  "Départemental","U19 Nationaux","Universitaire"];
+const DISPOS = ["Libre","Sous contrat","Fin de contrat"];
+
+let S = {
+  view: 'loading',      // loading | auth | profil | dashboard
+  authTab: 'signup',    // signup | login
+  role: 'player',
+  session: null,
+  profile: null,        // ligne profiles
+  player: null,         // ligne players
+  msg: null,            // {type, text}
+  busy: false,
+  form: {}
+};
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c =>
+  ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+function say(type, text){ S.msg = {type, text}; render(); }
+function clearMsg(){ S.msg = null; }
+
+/* Traduction des messages d'erreur Supabase en français lisible */
+function humanError(e){
+  const m = (e?.message || String(e)).toLowerCase();
+  if (m.includes('invalid login credentials')) return "Email ou mot de passe incorrect.";
+  if (m.includes('user already registered')) return "Un compte existe déjà avec cet email.";
+  if (m.includes('password should be at least')) return "Le mot de passe doit faire au moins 6 caractères.";
+  if (m.includes('unable to validate email')) return "Cette adresse email n'est pas valide.";
+  if (m.includes('email not confirmed')) return "Confirmez votre email avant de vous connecter.";
+  if (m.includes('rate limit') || m.includes('too many')) return "Trop de tentatives. Réessayez dans quelques minutes.";
+  if (m.includes('failed to fetch') || m.includes('networkerror')) return "Connexion au serveur impossible. Vérifiez votre réseau.";
+  return e?.message || "Une erreur est survenue.";
+}
+
+const age = d => {
+  if(!d) return null;
+  const b = new Date(d), n = new Date();
+  let a = n.getFullYear() - b.getFullYear();
+  const m = n.getMonth() - b.getMonth();
+  if (m < 0 || (m === 0 && n.getDate() < b.getDate())) a--;
+  return a;
+};
+
+/* ====================================================================
+   CHARGEMENT DE LA SESSION
+   ==================================================================== */
+async function boot(){
+  const { data:{ session } } = await db.auth.getSession();
+  S.session = session;
+
+  if (!session){ S.view = 'auth'; return render(); }
+  await loadMe();
+  render();
+}
+
+async function loadMe(){
+  const uid = S.session.user.id;
+
+  const { data: prof } = await db.from('profiles').select('*').eq('id', uid).maybeSingle();
+  S.profile = prof;
+
+  if (!prof){
+    // Le trigger n'a pas encore créé la ligne : on la crée nous-mêmes.
+    const meta = S.session.user.user_metadata || {};
+    const { data: created, error } = await db.from('profiles').insert({
+      id: uid,
+      role: meta.role || 'player',
+      full_name: meta.full_name || ''
+    }).select().maybeSingle();
+    if (error) { S.view='auth'; return say('err', humanError(error)); }
+    S.profile = created;
+  }
+
+  if (S.profile.role === 'player'){
+    const { data: pl } = await db.from('players').select('*').eq('id', uid).maybeSingle();
+    S.player = pl;
+    S.view = pl ? 'dashboard' : 'profil';
+    if (pl) S.form = {...pl};
+  } else {
+    // Agents et clubs : écran d'attente, la suite viendra à l'étape 3
+    S.view = 'dashboard';
+  }
+}
+
+/* ====================================================================
+   ACTIONS
+   ==================================================================== */
+async function signup(){
+  const f = S.form;
+  if (!f.email || !f.password) return say('err', "Email et mot de passe sont obligatoires.");
+  if (!f.full_name) return say('err', "Indiquez votre nom et prénom.");
+  if (f.password.length < 6) return say('err', "Le mot de passe doit faire au moins 6 caractères.");
+
+  S.busy = true; clearMsg(); render();
+  const { data, error } = await db.auth.signUp({
+    email: f.email.trim(),
+    password: f.password,
+    options: { data: { role: S.role, full_name: f.full_name.trim() } }
+  });
+  S.busy = false;
+
+  if (error) return say('err', humanError(error));
+
+  if (!data.session){
+    // Confirmation par email activée côté Supabase
+    S.view = 'auth';
+    return say('info', "Compte créé. Ouvrez l'email de confirmation qu'on vient de vous envoyer, puis connectez-vous.");
+  }
+  S.session = data.session;
+  S.form = {};
+  await loadMe();
+  render();
+}
+
+async function login(){
+  const f = S.form;
+  if (!f.email || !f.password) return say('err', "Email et mot de passe sont obligatoires.");
+
+  S.busy = true; clearMsg(); render();
+  const { data, error } = await db.auth.signInWithPassword({
+    email: f.email.trim(), password: f.password
+  });
+  S.busy = false;
+
+  if (error) return say('err', humanError(error));
+  S.session = data.session;
+  S.form = {};
+  await loadMe();
+  render();
+}
+
+async function logout(){
+  await db.auth.signOut();
+  S = {...S, view:'auth', authTab:'login', session:null, profile:null, player:null, form:{}, msg:null};
+  render();
+}
+
+async function saveProfil(){
+  const f = S.form;
+  const manquants = [];
+  if (!f.birth_date) manquants.push("date de naissance");
+  if (!f.poste)      manquants.push("poste");
+  if (!f.pays)       manquants.push("pays");
+  if (manquants.length) return say('err', "Il manque : " + manquants.join(", ") + ".");
+
+  const a = age(f.birth_date);
+  if (a === null || a < 10 || a > 60) return say('err', "Vérifiez la date de naissance.");
+
+  S.busy = true; clearMsg(); render();
+
+  const payload = {
+    id: S.session.user.id,
+    birth_date: f.birth_date,
+    poste: f.poste,
+    pied: f.pied || null,
+    taille_cm: f.taille_cm ? parseInt(f.taille_cm, 10) : null,
+    club_actuel: f.club_actuel || null,
+    niveau: f.niveau || null,
+    pays: f.pays,
+    ville: f.ville || null,
+    dispo: f.dispo || null,
+    bio: f.bio || null,
+    matchs: parseInt(f.matchs || 0, 10),
+    buts: parseInt(f.buts || 0, 10),
+    passes: parseInt(f.passes || 0, 10),
+    clean_sheets: parseInt(f.clean_sheets || 0, 10),
+    updated_at: new Date().toISOString()
+  };
+
+  const { data, error } = await db.from('players').upsert(payload).select().maybeSingle();
+  S.busy = false;
+
+  if (error) return say('err', humanError(error));
+  S.player = data;
+  S.view = 'dashboard';
+  say('ok', "Profil enregistré.");
+}
+
+/* ====================================================================
+   VUES
+   ==================================================================== */
+function msgHtml(){
+  if (!S.msg) return '';
+  const cls = S.msg.type === 'err' ? 'err' : S.msg.type === 'info' ? 'info' : '';
+  const ico = S.msg.type === 'err' ? '⚠️' : S.msg.type === 'info' ? 'ℹ️' : '✓';
+  return `<div class="banner ${cls}">${ico}<div>${esc(S.msg.text)}</div></div>`;
+}
+
+function vAuth(){
+  const inscription = S.authTab === 'signup';
+  return `
+    <h1>${inscription ? "Créer un compte" : "Se connecter"}</h1>
+    <p class="sub">${inscription
+      ? "Gratuit pour les joueurs. Deux minutes."
+      : "Content de vous revoir."}</p>
+
+    <div class="card">
+      <div class="tabs">
+        <button data-a="tab" data-v="signup" class="${inscription?'on':''}">Inscription</button>
+        <button data-a="tab" data-v="login"  class="${!inscription?'on':''}">Connexion</button>
+      </div>
+
+      ${msgHtml()}
+
+      ${inscription ? `
+        <div class="f">
+          <label class="label">Je suis</label>
+          <div class="roles">
+            <button data-a="role" data-v="player" class="${S.role==='player'?'on':''}">Joueur</button>
+            <button data-a="role" data-v="agent"  class="${S.role==='agent'?'on':''}">Agent licencié</button>
+            <button data-a="role" data-v="club"   class="${S.role==='club'?'on':''}">Club</button>
+          </div>
+        </div>
+        <div class="f">
+          <label class="label">Nom et prénom</label>
+          <input class="field" data-f="full_name" value="${esc(S.form.full_name||'')}"
+                 placeholder="Ex. Yanis Belhadj" autocomplete="name">
+        </div>` : ''}
+
+      <div class="f">
+        <label class="label">Email</label>
+        <input class="field" type="email" data-f="email" value="${esc(S.form.email||'')}"
+               placeholder="vous@exemple.com" autocomplete="email">
+      </div>
+      <div class="f">
+        <label class="label">Mot de passe</label>
+        <input class="field" type="password" data-f="password" value="${esc(S.form.password||'')}"
+               placeholder="${inscription?'6 caractères minimum':'••••••••'}"
+               autocomplete="${inscription?'new-password':'current-password'}">
+      </div>
+
+      <button class="btn accent wide mt" data-a="${inscription?'signup':'login'}" ${S.busy?'disabled':''}>
+        ${S.busy ? '<span class="spin"></span> Un instant…'
+                 : (inscription ? "Créer mon compte" : "Se connecter")}
+      </button>
+    </div>
+
+    <p class="small center mt">
+      ${inscription
+        ? "En créant un compte, vous acceptez que vos informations soient visibles par les agents et clubs vérifiés."
+        : ""}
+    </p>`;
+}
+
+function champ(label, key, opts={}){
+  const v = esc(S.form[key] ?? '');
+  if (opts.options){
+    return `<div class="f"><label class="label">${label}</label>
+      <select class="field" data-f="${key}">
+        <option value="">${opts.placeholder || '—'}</option>
+        ${opts.options.map(o=>`<option ${S.form[key]===o?'selected':''}>${o}</option>`).join('')}
+      </select></div>`;
+  }
+  if (opts.textarea){
+    return `<div class="f"><label class="label">${label}</label>
+      <textarea class="field" rows="3" data-f="${key}" placeholder="${opts.placeholder||''}">${v}</textarea></div>`;
+  }
+  return `<div class="f"><label class="label">${label}</label>
+    <input class="field" type="${opts.type||'text'}" data-f="${key}" value="${v}"
+           placeholder="${opts.placeholder||''}"></div>`;
+}
+
+function vProfil(){
+  const a = age(S.form.birth_date);
+  const mineur = a !== null && a < 18;
+  return `
+    <h1>Votre profil</h1>
+    <p class="sub">C'est ce que les agents et les clubs verront de vous.</p>
+
+    ${msgHtml()}
+
+    ${mineur ? `<div class="banner warn">⚠️<div>
+      Vous avez moins de 18 ans. Votre profil sera enregistré mais restera
+      <b>invisible</b> pour les agents et les clubs tant qu'un représentant légal
+      ne l'aura pas validé. On vous expliquera la marche à suivre juste après.
+    </div></div>` : ''}
+
+    <div class="card">
+      <h3>Identité</h3>
+      <div class="row2">
+        ${champ("Date de naissance","birth_date",{type:"date"})}
+        ${champ("Poste","poste",{options:POSTES, placeholder:"Choisir un poste"})}
+      </div>
+      <div class="row2">
+        ${champ("Pied fort","pied",{options:["Droit","Gauche","Les deux"]})}
+        ${champ("Taille (cm)","taille_cm",{type:"number", placeholder:"178"})}
+      </div>
+    </div>
+
+    <div class="card mt">
+      <h3>Situation</h3>
+      <div class="row2">
+        ${champ("Club actuel","club_actuel",{placeholder:"US Créteil-Lusitanos"})}
+        ${champ("Niveau","niveau",{options:NIVEAUX, placeholder:"Choisir un niveau"})}
+      </div>
+      <div class="row3">
+        ${champ("Pays","pays",{placeholder:"France"})}
+        ${champ("Ville","ville",{placeholder:"Créteil"})}
+        ${champ("Disponibilité","dispo",{options:DISPOS})}
+      </div>
+    </div>
+
+    <div class="card mt">
+      <h3>Statistiques de la saison</h3>
+      <div class="row3">
+        ${champ("Matchs joués","matchs",{type:"number", placeholder:"0"})}
+        ${champ("Buts","buts",{type:"number", placeholder:"0"})}
+        ${champ("Passes décisives","passes",{type:"number", placeholder:"0"})}
+      </div>
+      ${S.form.poste === 'Gardien'
+        ? champ("Clean sheets","clean_sheets",{type:"number", placeholder:"0"}) : ''}
+      ${champ("Quelques mots sur vous","bio",{textarea:true,
+        placeholder:"Votre jeu, vos qualités, ce que vous cherchez."})}
+    </div>
+
+    <button class="btn accent wide mt" data-a="save" ${S.busy?'disabled':''}>
+      ${S.busy ? '<span class="spin"></span> Enregistrement…' : "Enregistrer mon profil"}
+    </button>`;
+}
+
+function vDashboard(){
+  // Agents et clubs : leur espace arrive à l'étape suivante
+  if (S.profile.role !== 'player'){
+    return `
+      <h1>Bienvenue</h1>
+      <p class="sub">Votre compte ${S.profile.role === 'agent' ? "agent" : "club"} est créé.</p>
+      ${msgHtml()}
+      <div class="card">
+        <div class="banner info">🔒<div>
+          Les comptes agents et clubs doivent être vérifiés manuellement avant
+          d'accéder aux profils des joueurs. On vous recontacte par email.
+        </div></div>
+        <p class="small">En attendant, la démo du produit reste accessible.</p>
+        <a class="btn mt" href="app.html">Voir la démo →</a>
+      </div>`;
+  }
+
+  const p = S.player, a = age(p.birth_date);
+  const mineur = a !== null && a < 18;
+  const valide = S.profile.guardian_ok;
+  const gardien = p.poste === 'Gardien';
+
+  return `
+    <h1>Salut ${esc((S.profile.full_name||'').split(' ')[0] || '')} 👋</h1>
+    <p class="sub">Votre profil est enregistré.</p>
+
+    ${msgHtml()}
+
+    ${mineur && !valide ? `<div class="banner warn">⚠️<div>
+      <b>Profil en attente de validation.</b> Comme vous avez moins de 18 ans,
+      un représentant légal doit donner son accord avant que les agents puissent
+      vous voir. Écrivez-nous depuis l'adresse d'un parent pour l'activer.
+    </div></div>` : ''}
+
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px">
+        <h2 style="margin:0">${esc(p.poste)}</h2>
+        <span class="pill ${p.visible && (!mineur||valide) ? 'green' : 'warn'}">
+          ${p.visible && (!mineur||valide) ? 'Visible' : 'Non visible'}
+        </span>
+        ${p.dispo ? `<span class="pill">${esc(p.dispo)}</span>` : ''}
+      </div>
+
+      <p class="small" style="margin-bottom:18px">
+        ${a} ans${p.pied ? ' · '+esc(p.pied) : ''}${p.taille_cm ? ' · '+p.taille_cm+' cm' : ''}<br>
+        ${esc(p.club_actuel||'Sans club')}${p.niveau ? ' · '+esc(p.niveau) : ''}<br>
+        ${esc(p.ville||'')}${p.ville&&p.pays?', ':''}${esc(p.pays||'')}
+      </p>
+
+      <div class="statgrid">
+        <div class="stat"><b>${p.matchs}</b><span>Matchs</span></div>
+        ${gardien
+          ? `<div class="stat"><b>${p.clean_sheets}</b><span>Clean sheets</span></div>`
+          : `<div class="stat"><b>${p.buts}</b><span>Buts</span></div>`}
+        <div class="stat"><b>${p.passes}</b><span>Passes D.</span></div>
+      </div>
+
+      ${p.bio ? `<div class="sep"></div><p class="small">${esc(p.bio)}</p>` : ''}
+
+      <div class="sep"></div>
+      <div class="statgrid">
+        <div class="stat"><b>${p.vues}</b><span>Vues du profil</span></div>
+        <div class="stat"><b>0</b><span>Vidéos</span></div>
+        <div class="stat"><b>0</b><span>Messages</span></div>
+      </div>
+
+      <button class="btn wide mt" data-a="edit">Modifier mon profil</button>
+    </div>
+
+    <div class="banner info mt">🚧<div>
+      La publication de vidéos et la messagerie arrivent bientôt.
+      Votre profil, lui, est bien enregistré et vous le retrouverez en revenant.
+    </div></div>`;
+}
+
+/* ====================================================================
+   RENDU
+   ==================================================================== */
+function render(){
+  $('#navright').innerHTML = S.session
+    ? `<span class="small" style="margin-right:6px">${esc(S.session.user.email)}</span>
+       <button class="btn sm" data-a="logout">Déconnexion</button>`
+    : `<a class="btn sm" href="app.html">Voir la démo</a>`;
+
+  let html = '';
+  if (S.view === 'loading')        html = `<div class="loading"><span class="spin"></span><br><br>Chargement…</div>`;
+  else if (S.view === 'auth')      html = vAuth();
+  else if (S.view === 'profil')    html = vProfil();
+  else if (S.view === 'dashboard') html = vDashboard();
+  $('#app').innerHTML = html;
+}
+
+/* ====================================================================
+   ÉVÉNEMENTS
+   ==================================================================== */
+document.addEventListener('input', e => {
+  const el = e.target.closest('[data-f]');
+  if (!el) return;
+  S.form[el.dataset.f] = el.value;
+  // Le champ "clean sheets" apparaît/disparaît selon le poste choisi.
+  if (el.dataset.f === 'poste') render();
+});
+
+document.addEventListener('change', e => {
+  const el = e.target.closest('[data-f]');
+  if (!el) return;
+  S.form[el.dataset.f] = el.value;
+  if (el.dataset.f === 'poste' || el.dataset.f === 'birth_date') render();
+});
+
+document.addEventListener('click', e => {
+  const el = e.target.closest('[data-a]');
+  if (!el) return;
+  const a = el.dataset.a, v = el.dataset.v;
+
+  if (a === 'tab')    { S.authTab = v; clearMsg(); return render(); }
+  if (a === 'role')   { S.role = v; return render(); }
+  if (a === 'signup') return signup();
+  if (a === 'login')  return login();
+  if (a === 'logout') return logout();
+  if (a === 'save')   return saveProfil();
+  if (a === 'edit')   { S.form = {...S.player}; S.view = 'profil'; clearMsg(); return render(); }
+});
+
+// Entrée = valider le formulaire en cours
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Enter' || S.busy) return;
+  if (e.target.tagName === 'TEXTAREA') return;
+  if (S.view === 'auth') { e.preventDefault(); S.authTab === 'signup' ? signup() : login(); }
+});
+
+boot().catch(err => {
+  S.view = 'auth';
+  say('err', humanError(err));
+});
+</script>
+</body>
+</html>
